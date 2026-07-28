@@ -783,7 +783,6 @@ const LEARN_TRACKS=[
   res:[]}
 ];
 const HABITS_DEF=[
- {t:'No Porn',tip:'Urges are loudest when bored + alone + phone in hand. Break one: leave the room, call someone, or go train.'},
  {t:'Workout / Soccer',tip:'Shrink it: 15 minutes of ball mastery counts. Consistency beats intensity.'},
  {t:'Wake Up Early',tip:'Won the night before: alarm across the room, phone charging outside the bedroom.'},
  {t:'Read 10+ min',tip:'Put the book on your pillow in the morning. Read before the phone gets unlocked at night.'},
@@ -1017,6 +1016,7 @@ function renderProfiles(){
   });
   const add=document.createElement('div');add.className='pchip add';add.textContent='+ profile';add.onclick=addProfile;bar.appendChild(add);
   const th=document.createElement('div');th.className='pchip add';th.textContent='🎨 theme';th.onclick=toggleProfileTheme;bar.appendChild(th);
+  if(profileList().length>1){const del=document.createElement('div');del.className='pchip add';del.textContent='🗑 remove';del.onclick=deleteProfile;bar.appendChild(del);}
 }
 function renderHUD(){renderProfiles();const li=levelInfo();document.getElementById('hudStreak').textContent=S.streak;document.getElementById('hudXp').textContent=S.xp;document.getElementById('hudLvl').textContent=li.lvl;setArc('lvlArc',li.rem/li.need,119);var _u=document.getElementById('hudUnit');if(_u)_u.textContent=uL().toUpperCase();}
 function massGoalPct(){const {start,current,goal}=S.mass;const span=Math.abs(start-goal);if(span===0)return 100;return Math.max(0,Math.min(100,Math.round(Math.abs(start-current)/span*100)));}
@@ -1491,7 +1491,7 @@ function coachBriefing(){
   out+='<span class="h">THE BIG PICTURE</span>';
   if(S.streak===0)out+='Fresh start. The gap between who you are and who you want to be is one logged rep. Do one thing now and light the streak.';
   else if(p>=85)out+='🔥 '+p+'% of habits done and a '+S.streak+'-day streak. This is who you are now. Protect it.';
-  else out+='Rough patch — '+p+'% today. Shrink the game: this week just chase No Porn + one more. Win small, then expand.';
+  else out+='Rough patch — '+p+'% today. Shrink the game: this week just chase your keystone habit + one more. Win small, then expand.';
   out+='<span class="h">STREAK REPORT</span>';
   out+=(S.streak>=3?'🔥 '+S.streak+' days strong. Streaks work because your brain hates breaking them. Do the minimum today if tired — but do something.':'Streak at '+S.streak+'. That’s data, not a verdict. A relapse resets the counter, not your progress. Log today.');
   if(sup){out+='<span class="h">YOUR SUPERPOWER</span>Strongest habit: '+sup+'. Anchor your day on it — do your weakest habit immediately after it.';}
