@@ -1,6 +1,6 @@
 // LIMITLESS service worker — app-shell offline cache + background rest-timer notifications.
 // Bump CACHE_VERSION on every deploy so clients pick up the new shell instead of a stale cache.
-const CACHE_VERSION = 'limitless-v5';
+const CACHE_VERSION = 'limitless-v6';
 const CACHE_NAME = `${CACHE_VERSION}-shell`;
 
 const APP_SHELL = [

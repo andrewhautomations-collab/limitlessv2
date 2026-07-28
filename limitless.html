@@ -328,8 +328,8 @@ body.theme-pastel .restbar{background:#fbf1fa}
 
   <!-- MASS -->
   <section id="v-mass" class="hide">
-    <h2 class="sec">🏋️ Mass Blueprint <span class="phase">6-Day PPL · Machine Intensity</span></h2>
-    <div class="secsub">Push · Pull · Legs, run twice. Machine-based, taken to failure. A body map lights up the muscles each day hits. Tap a day for the full workout.</div>
+    <h2 class="sec">🏋️ <span id="massTitle">Mass Blueprint</span> <span class="phase" id="massPhase">6-Day PPL · Machine Intensity</span></h2>
+    <div class="secsub" id="massSub">Push · Pull · Legs, run twice. Machine-based, taken to failure. A body map lights up the muscles each day hits. Tap a day for the full workout.</div>
     <div class="grid">
       <div class="card">
         <h3>Weight Goal</h3>
@@ -406,7 +406,7 @@ body.theme-pastel .restbar{background:#fbf1fa}
       </div>
 
       <div class="card spanall">
-        <h3>The 6-Day Split</h3>
+        <h3 id="massSplitTitle">The 6-Day Split</h3>
         <div class="sub">Check a day when trained (+20 XP). Tap the name for the full exercise list.</div>
         <div id="massDays"></div>
       </div>
@@ -1165,6 +1165,16 @@ function exportCSV(){
 
 function weeksSinceDeload(){if(!S.mass.lastDeload)return null;const diff=(Date.now()-new Date(S.mass.lastDeload).getTime())/86400000;return Math.floor(diff/7);}
 function renderMass(){
+  // Header follows the active profile's program: built-in Blueprint keeps its
+  // original copy; any other split gets described by what it actually is.
+  const isBlueprint=PROG().length===BLUEPRINT.length&&PROG().every((d,i)=>d.k===BLUEPRINT[i].k);
+  const tEl=document.getElementById('massTitle'),phEl=document.getElementById('massPhase'),subEl=document.getElementById('massSub'),spEl=document.getElementById('massSplitTitle');
+  if(tEl)tEl.textContent=isBlueprint?'Mass Blueprint':(activeProfile().name+'’s Split');
+  if(phEl)phEl.textContent=isBlueprint?'6-Day PPL · Machine Intensity':(PROG().length+'-Day Program');
+  if(subEl)subEl.textContent=isBlueprint
+    ?'Push · Pull · Legs, run twice. Machine-based, taken to failure. A body map lights up the muscles each day hits. Tap a day for the full workout.'
+    :PROG().map(d=>d.k).join(' · ')+'. A body map lights up the muscles each day hits. Tap a day for the full workout.';
+  if(spEl)spEl.textContent='The '+PROG().length+'-Day Split';
   document.getElementById('tStart').textContent=fmtW(S.mass.start)+' '+uL();document.getElementById('tCur').textContent=fmtW(S.mass.current)+' '+uL();document.getElementById('tGoal').textContent=fmtW(S.mass.goal)+' '+uL();
   const gp=massGoalPct();document.getElementById('massRingPct').textContent=gp+'%';setArc('massArc',gp/100,314);
   const dn=S.mass.days.filter(x=>x.done).length;const pl=Math.max(1,PROG().length);document.getElementById('massWkRing').textContent=dn+'/'+PROG().length;setArc('massWkArc',dn/pl,314);
